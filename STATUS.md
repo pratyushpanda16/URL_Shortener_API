@@ -5,11 +5,11 @@
 - [x] Node.js project
 - [x] Express server
 - [x] Environment configuration
-- [ ] MongoDB connection
+- [x] MongoDB connection
 
 ## URL Shortener
 
-- [ ] URL schema
+- [x] URL schema
 - [ ] Create short URL
 - [ ] Redirect
 - [ ] Get URL
@@ -40,4 +40,4 @@
 
 ## Current Task
 
-Phase 1 verified: Express skeleton, environment config, logging, error handling, and a Jest script that checks GET /health and unknown routes. asyncHandler stays unused until the first async route. Next is the MongoDB connection.
+Phase 2 verified: MongoDB connects before the server listens, and GET /health on the running server returned `{"success":true,"data":{"status":"ok","database":"connected"}}`. The connected database name is `test` because the URI path has no database name. A second `npm start` also connected, then exited because port 3000 was already in use. URL shortening routes are still not implemented.

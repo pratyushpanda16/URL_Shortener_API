@@ -2,14 +2,15 @@ const request = require('supertest');
 const app = require('../src/app');
 
 describe('Phase 1 HTTP checks', () => {
-  test('GET /health returns 200', async () => {
+  test('GET /health reports the current database state', async () => {
     const response = await request(app).get('/health');
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(503);
     expect(response.body).toEqual({
-      success: true,
+      success: false,
       data: {
-        status: 'ok',
+        status: 'error',
+        database: 'disconnected',
       },
     });
   });
