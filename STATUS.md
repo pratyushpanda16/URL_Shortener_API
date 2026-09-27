@@ -2,9 +2,9 @@
 
 ## Project Setup
 
-- [ ] Node.js project
-- [ ] Express server
-- [ ] Environment configuration
+- [x] Node.js project
+- [x] Express server
+- [x] Environment configuration
 - [ ] MongoDB connection
 
 ## URL Shortener
@@ -19,12 +19,12 @@
 
 - [ ] MVC architecture
 - [ ] Validation
-- [ ] Middleware
-- [ ] Global error handling
-- [ ] HTTP status codes
+- [x] Middleware
+- [x] Global error handling
+- [x] HTTP status codes
 - [ ] MongoDB indexing
 - [ ] Pagination
-- [ ] Logging
+- [x] Logging
 
 ## Testing
 
@@ -40,4 +40,4 @@
 
 ## Current Task
 
-Project initialization.
+Phase 1 verified: Express skeleton, environment config, logging, error handling, and a Jest script that checks GET /health and unknown routes. asyncHandler stays unused until the first async route. Next is the MongoDB connection.
