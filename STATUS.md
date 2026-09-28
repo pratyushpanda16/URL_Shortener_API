@@ -11,7 +11,7 @@
 
 - [x] URL schema
 - [x] Create short URL
-- [ ] Redirect
+- [x] Redirect
 - [ ] Get URL
 - [ ] Delete URL
 
@@ -40,4 +40,4 @@
 
 ## Current Task
 
-Phase 3: POST /api/urls creates a short URL. Custom codes that already exist return 409. Invalid URLs and short codes return 400. Tests mock the URL model, so they do not use MongoDB Atlas. Redirect, get, delete, and pagination are not implemented.
+Phase 4: GET /:shortCode redirects to the original URL with HTTP 302 and increments clicks atomically. Unknown codes return 404 JSON and are not redirected. GET /api/urls/:shortCode, delete, and pagination are not implemented. Tests mock the URL model.

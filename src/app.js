@@ -31,6 +31,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/urls', urlRoutes);
+app.use(urlRoutes.redirectRouter);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -70,6 +70,21 @@ const createUrl = asyncHandler(async (req, res) => {
   throw new ApiError(500, 'Unable to generate a unique short code');
 });
 
+const redirectUrl = asyncHandler(async (req, res) => {
+  const url = await Url.findOneAndUpdate(
+    { shortCode: req.params.shortCode },
+    { $inc: { clicks: 1 } },
+    { returnDocument: 'after' }
+  );
+
+  if (!url) {
+    throw new ApiError(404, 'Short URL not found');
+  }
+
+  return res.redirect(302, url.originalUrl);
+});
+
 module.exports = {
   createUrl,
+  redirectUrl,
 };

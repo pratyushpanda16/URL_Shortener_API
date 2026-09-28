@@ -16,12 +16,12 @@ describe('Phase 1 HTTP checks', () => {
   });
 
   test('an unknown route returns 404', async () => {
-    const response = await request(app).get('/does-not-exist');
+    const response = await request(app).get('/unknown/route');
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
       success: false,
-      message: 'Route not found: GET /does-not-exist',
+      message: 'Route not found: GET /unknown/route',
       errors: [],
     });
   });
