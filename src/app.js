@@ -1,9 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express');
 const requestLogger = require('./middleware/requestLogger');
 const notFound = require('./middleware/notFound');
 const errorHandler = require('./middleware/errorHandler');
 const urlRoutes = require('./routes/url.routes');
+const openapiSpecification = require('./docs/openapi');
 
 const DATABASE_STATES = {
   0: 'disconnected',
@@ -31,6 +33,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/urls', urlRoutes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use(urlRoutes.redirectRouter);
 
 app.use(notFound);

@@ -31,6 +31,7 @@ src/
   middleware/             Request logging, 404s, and error responses
   models/                 Mongoose URL schema
   routes/                 HTTP routes
+  docs/                   OpenAPI specification
   utils/                  ApiError, asyncHandler, short-code generation
   validators/             Input validation
 tests/                    API tests that mock the URL model
@@ -76,6 +77,14 @@ npm run dev
 `npm start` runs the server without file watching.
 
 The process exits if MongoDB cannot be reached or if the port is already in use.
+
+## API Documentation
+
+Swagger UI:
+
+http://localhost:3000/api-docs
+
+Swagger UI is interactive documentation for this API. It lists the existing endpoints, request fields, and response codes. It does not add API behavior.
 
 ## API endpoints
 
