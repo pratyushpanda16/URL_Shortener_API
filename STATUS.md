@@ -10,15 +10,15 @@
 ## URL Shortener
 
 - [x] URL schema
-- [ ] Create short URL
+- [x] Create short URL
 - [ ] Redirect
 - [ ] Get URL
 - [ ] Delete URL
 
 ## Backend Concepts
 
-- [ ] MVC architecture
-- [ ] Validation
+- [x] MVC architecture
+- [x] Validation
 - [x] Middleware
 - [x] Global error handling
 - [x] HTTP status codes
@@ -28,9 +28,9 @@
 
 ## Testing
 
-- [ ] API tests
-- [ ] Error cases
-- [ ] Validation tests
+- [x] API tests
+- [x] Error cases
+- [x] Validation tests
 
 ## Documentation
 
@@ -40,4 +40,4 @@
 
 ## Current Task
 
-Phase 2 verified: MongoDB connects before the server listens, and GET /health on the running server returned `{"success":true,"data":{"status":"ok","database":"connected"}}`. The connected database name is `test` because the URI path has no database name. A second `npm start` also connected, then exited because port 3000 was already in use. URL shortening routes are still not implemented.
+Phase 3: POST /api/urls creates a short URL. Custom codes that already exist return 409. Invalid URLs and short codes return 400. Tests mock the URL model, so they do not use MongoDB Atlas. Redirect, get, delete, and pagination are not implemented.
