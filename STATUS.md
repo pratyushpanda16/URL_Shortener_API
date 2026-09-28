@@ -13,7 +13,7 @@
 - [x] Create short URL
 - [x] Redirect
 - [x] Get URL
-- [ ] Delete URL
+- [x] Delete URL
 
 ## Backend Concepts
 
@@ -40,4 +40,4 @@
 
 ## Current Task
 
-Phase 5: GET /api/urls/:shortCode returns URL metadata without incrementing clicks. Invalid short codes return 400, and unknown valid codes return 404. GET /:shortCode still redirects with HTTP 302 and increments clicks. Delete and pagination are not implemented. Tests mock the URL model.
+Phase 6: DELETE /api/urls/:shortCode permanently removes a shortened URL with findOneAndDelete. Invalid short codes return 400, and unknown valid codes return 404. Successful deletion returns HTTP 204 with no body. Metadata and redirect both return 404 for a deleted code. Pagination is not implemented. Tests mock the URL model.

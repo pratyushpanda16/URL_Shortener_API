@@ -108,8 +108,20 @@ const redirectUrl = asyncHandler(async (req, res) => {
   return res.redirect(302, url.originalUrl);
 });
 
+const deleteUrl = asyncHandler(async (req, res) => {
+  const shortCode = validateShortCodeParam(req.params.shortCode);
+  const deleted = await Url.findOneAndDelete({ shortCode });
+
+  if (!deleted) {
+    throw new ApiError(404, 'Short URL not found');
+  }
+
+  return res.status(204).end();
+});
+
 module.exports = {
   createUrl,
   getUrlByShortCode,
   redirectUrl,
+  deleteUrl,
 };
