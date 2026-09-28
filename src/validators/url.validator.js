@@ -70,6 +70,54 @@ function validateShortCodeParam(value) {
   return value;
 }
 
+const DEFAULT_PAGE = 1;
+const DEFAULT_LIMIT = 10;
+const MAX_LIMIT = 50;
+const POSITIVE_INTEGER = /^[1-9]\d*$/;
+
+function readPositiveInteger(value, field) {
+  if (typeof value !== 'string' || !POSITIVE_INTEGER.test(value)) {
+    return `${field} must be a positive integer`;
+  }
+
+  const parsed = Number(value);
+
+  if (!Number.isSafeInteger(parsed)) {
+    return `${field} must be a positive integer`;
+  }
+
+  return { value: parsed };
+}
+
+function validatePagination(query) {
+  const errors = [];
+  const page =
+    query.page === undefined ? { value: DEFAULT_PAGE } : readPositiveInteger(query.page, 'page');
+  const limit =
+    query.limit === undefined
+      ? { value: DEFAULT_LIMIT }
+      : readPositiveInteger(query.limit, 'limit');
+
+  if (typeof page === 'string') {
+    errors.push({ field: 'page', message: page });
+  }
+
+  if (typeof limit === 'string') {
+    errors.push({ field: 'limit', message: limit });
+  } else if (limit.value > MAX_LIMIT) {
+    errors.push({ field: 'limit', message: 'limit cannot exceed 50' });
+  }
+
+  if (errors.length > 0) {
+    throw new ApiError(400, 'Validation failed', errors);
+  }
+
+  return {
+    page: page.value,
+    limit: limit.value,
+  };
+}
+
 function validateCreateUrl(body) {
   if (body === null || typeof body !== 'object' || Array.isArray(body)) {
     throw new ApiError(400, 'Validation failed', [
@@ -102,4 +150,5 @@ function validateCreateUrl(body) {
 module.exports = {
   validateCreateUrl,
   validateShortCodeParam,
+  validatePagination,
 };

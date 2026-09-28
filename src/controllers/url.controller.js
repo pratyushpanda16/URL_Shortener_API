@@ -6,6 +6,7 @@ const { generateShortCode } = require('../utils/shortCode');
 const {
   validateCreateUrl,
   validateShortCodeParam,
+  validatePagination,
 } = require('../validators/url.validator');
 
 const MAX_GENERATION_ATTEMPTS = 5;
@@ -20,6 +21,17 @@ function buildUrlResponse(originalUrl, shortCode) {
     originalUrl,
     shortCode,
     shortUrl: `${env.baseUrl}/${shortCode}`,
+  };
+}
+
+function toPublicUrl(url) {
+  return {
+    originalUrl: url.originalUrl,
+    shortCode: url.shortCode,
+    shortUrl: `${env.baseUrl}/${url.shortCode}`,
+    clicks: url.clicks,
+    createdAt: url.createdAt,
+    updatedAt: url.updatedAt,
   };
 }
 
@@ -83,13 +95,33 @@ const getUrlByShortCode = asyncHandler(async (req, res) => {
 
   return res.status(200).json({
     success: true,
+    data: toPublicUrl(url),
+  });
+});
+
+const listUrls = asyncHandler(async (req, res) => {
+  const { page, limit } = validatePagination(req.query);
+  const skip = (page - 1) * limit;
+
+  const [documents, totalItems] = await Promise.all([
+    Url.find().sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
+    Url.countDocuments(),
+  ]);
+
+  const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / limit);
+
+  return res.status(200).json({
+    success: true,
     data: {
-      originalUrl: url.originalUrl,
-      shortCode: url.shortCode,
-      shortUrl: `${env.baseUrl}/${url.shortCode}`,
-      clicks: url.clicks,
-      createdAt: url.createdAt,
-      updatedAt: url.updatedAt,
+      items: documents.map((url) => toPublicUrl(url)),
+      pagination: {
+        page,
+        limit,
+        totalItems,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPreviousPage: page > 1,
+      },
     },
   });
 });
@@ -122,6 +154,7 @@ const deleteUrl = asyncHandler(async (req, res) => {
 module.exports = {
   createUrl,
   getUrlByShortCode,
+  listUrls,
   redirectUrl,
   deleteUrl,
 };

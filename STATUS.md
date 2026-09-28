@@ -22,8 +22,8 @@
 - [x] Middleware
 - [x] Global error handling
 - [x] HTTP status codes
-- [ ] MongoDB indexing
-- [ ] Pagination
+- [x] MongoDB indexing
+- [x] Pagination
 - [x] Logging
 
 ## Testing
@@ -34,10 +34,10 @@
 
 ## Documentation
 
-- [ ] README
-- [ ] API documentation
-- [ ] Setup instructions
+- [x] README
+- [x] API documentation
+- [x] Setup instructions
 
 ## Current Task
 
-Phase 6: DELETE /api/urls/:shortCode permanently removes a shortened URL with findOneAndDelete. Invalid short codes return 400, and unknown valid codes return 404. Successful deletion returns HTTP 204 with no body. Metadata and redirect both return 404 for a deleted code. Pagination is not implemented. Tests mock the URL model.
+Phase 7 verified. `GET /api/urls` returns a newest-first page using `skip`, `limit`, and `countDocuments()`. Invalid `page` or `limit` values return 400. An empty page returns 200. Atlas has a unique `shortCode_1` index and a `createdAt_-1` index. Jest: 7 suites, 45 tests, all passed. Runtime checks against MongoDB Atlas covered health, create, list, pagination, metadata, 302 redirect, click increment, 204 delete, and 404 after delete. Temporary runtime documents `p7tA01`, `p7tB02`, and `p7tC03` were removed.
