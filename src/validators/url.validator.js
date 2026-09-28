@@ -1,6 +1,16 @@
 const ApiError = require('../utils/ApiError');
 
 const SHORT_CODE_PATTERN = /^[A-Za-z0-9]+$/;
+const SHORT_CODE_MESSAGE = 'shortCode must be 4-10 letters or numbers';
+
+function hasInvalidShortCodeFormat(value) {
+  return (
+    typeof value !== 'string' ||
+    value.length < 4 ||
+    value.length > 10 ||
+    !SHORT_CODE_PATTERN.test(value)
+  );
+}
 
 function validateOriginalUrl(value) {
   if (value === undefined || value === null || value === '') {
@@ -43,15 +53,21 @@ function validateShortCode(value) {
 
   const trimmed = value.trim();
 
-  if (
-    trimmed.length < 4 ||
-    trimmed.length > 10 ||
-    !SHORT_CODE_PATTERN.test(trimmed)
-  ) {
-    return 'shortCode must be 4-10 letters or numbers';
+  if (hasInvalidShortCodeFormat(trimmed)) {
+    return SHORT_CODE_MESSAGE;
   }
 
   return { value: trimmed };
+}
+
+function validateShortCodeParam(value) {
+  if (hasInvalidShortCodeFormat(value)) {
+    throw new ApiError(400, 'Validation failed', [
+      { field: 'shortCode', message: SHORT_CODE_MESSAGE },
+    ]);
+  }
+
+  return value;
 }
 
 function validateCreateUrl(body) {
@@ -85,4 +101,5 @@ function validateCreateUrl(body) {
 
 module.exports = {
   validateCreateUrl,
+  validateShortCodeParam,
 };

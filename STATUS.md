@@ -12,7 +12,7 @@
 - [x] URL schema
 - [x] Create short URL
 - [x] Redirect
-- [ ] Get URL
+- [x] Get URL
 - [ ] Delete URL
 
 ## Backend Concepts
@@ -40,4 +40,4 @@
 
 ## Current Task
 
-Phase 4: GET /:shortCode redirects to the original URL with HTTP 302 and increments clicks atomically. Unknown codes return 404 JSON and are not redirected. GET /api/urls/:shortCode, delete, and pagination are not implemented. Tests mock the URL model.
+Phase 5: GET /api/urls/:shortCode returns URL metadata without incrementing clicks. Invalid short codes return 400, and unknown valid codes return 404. GET /:shortCode still redirects with HTTP 302 and increments clicks. Delete and pagination are not implemented. Tests mock the URL model.

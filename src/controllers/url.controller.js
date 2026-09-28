@@ -3,7 +3,10 @@ const env = require('../config/env');
 const ApiError = require('../utils/ApiError');
 const asyncHandler = require('../utils/asyncHandler');
 const { generateShortCode } = require('../utils/shortCode');
-const { validateCreateUrl } = require('../validators/url.validator');
+const {
+  validateCreateUrl,
+  validateShortCodeParam,
+} = require('../validators/url.validator');
 
 const MAX_GENERATION_ATTEMPTS = 5;
 
@@ -70,6 +73,27 @@ const createUrl = asyncHandler(async (req, res) => {
   throw new ApiError(500, 'Unable to generate a unique short code');
 });
 
+const getUrlByShortCode = asyncHandler(async (req, res) => {
+  const shortCode = validateShortCodeParam(req.params.shortCode);
+  const url = await Url.findOne({ shortCode });
+
+  if (!url) {
+    throw new ApiError(404, 'Short URL not found');
+  }
+
+  return res.status(200).json({
+    success: true,
+    data: {
+      originalUrl: url.originalUrl,
+      shortCode: url.shortCode,
+      shortUrl: `${env.baseUrl}/${url.shortCode}`,
+      clicks: url.clicks,
+      createdAt: url.createdAt,
+      updatedAt: url.updatedAt,
+    },
+  });
+});
+
 const redirectUrl = asyncHandler(async (req, res) => {
   const url = await Url.findOneAndUpdate(
     { shortCode: req.params.shortCode },
@@ -86,5 +110,6 @@ const redirectUrl = asyncHandler(async (req, res) => {
 
 module.exports = {
   createUrl,
+  getUrlByShortCode,
   redirectUrl,
 };
